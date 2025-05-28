@@ -12,7 +12,6 @@ DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
 # Setup Logging
 logger = logging.getLogger(__name__)
-#logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', filename='homieOfAi.log', encoding='utf-8', level=logging.INFO)
 file_handler = logging.FileHandler('homieOfAi.log', encoding='utf-8')
 file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p'))
 logger.addHandler(file_handler)
@@ -54,7 +53,7 @@ async def ai(ctx, *, prompt: str):
 
     # Send chat
     try:
-        res = await chat(prompt + " --no-markdown")
+        res = await chat(prompt + " --no-markdown", ctx.author.id)
         logger.info({
             'metadata':{
                 'author': ctx.author.name,
