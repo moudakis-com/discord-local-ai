@@ -53,7 +53,7 @@ async def ai(ctx, *, prompt: str):
 
     # Send chat
     try:
-        res = await chat(prompt + " --no-markdown")
+        res = await chat(prompt + " --no-markdown", ctx.author.id)
         logger.info({
             'metadata':{
                 'author': ctx.author.name,
