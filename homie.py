@@ -1,6 +1,7 @@
 # Import modules and packaages
 import discord
 import os
+import logging
 from discord.ext import commands
 from llamaAi import chat
 from dotenv import load_dotenv
@@ -8,6 +9,15 @@ from dotenv import load_dotenv
 # Load secrets
 load_dotenv() 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+
+# Setup Logging
+logger = logging.getLogger(__name__)
+#logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', filename='homieOfAi.log', encoding='utf-8', level=logging.INFO)
+file_handler = logging.FileHandler('homieOfAi.log', encoding='utf-8')
+file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p'))
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
+logger.propagate=False
 
 # Configure Discord bot
 intents = discord.Intents.default()
@@ -25,9 +35,6 @@ def chunk_text(text, limit=1010):
         split_point = text.rfind('\n\n', 0, limit)
         if split_point == -1:
             split_point = text.rfind('\n', 0, limit)  # Fallback to single newline
-        # split_point = text.rfind('\n', 0, limit)
-        # if split_point == -1:
-        #     split_point = limit  # Fallback: hard split
         chunks.append(text[:split_point].strip())
         text = text[split_point:].strip()
     if text:
@@ -48,6 +55,17 @@ async def ai(ctx, *, prompt: str):
     # Send chat
     try:
         res = await chat(prompt + " --no-markdown")
+        logger.info({
+            'metadata':{
+                'author': ctx.author.name,
+                'displayName': ctx.author.display_name,
+                'id': ctx.author.id,
+            },
+            'content': {
+                'prompt': prompt,
+                'response': res,
+            }
+        })
     except Exception as e:
         # Send the Error Embedded Message
         embed = discord.Embed(color=discord.Color.red())
@@ -55,6 +73,19 @@ async def ai(ctx, *, prompt: str):
         embed.add_field(name="Status", value="Failed", inline=False)
         message = await ctx.send(embed=embed)
         await ctx.send("ERROR: " + e)
+        logger.error({
+            'metadata': {
+                'author': ctx.author.name,
+                'displayName': ctx.author.display_name,
+                'id': ctx.author.id,
+            },
+            'content': {
+                'prompt': prompt,
+                'response': e,
+            }
+        })
+        return
+
 
     if guild_id in bot_command_messages:
         try: 
