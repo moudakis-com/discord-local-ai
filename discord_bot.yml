@@ -1,0 +1,65 @@
+---
+- name: Deploy Discord Local AI Bot
+  hosts: your_target_hosts
+  become: true
+
+  vars:
+    app_dir: /opt/discord-local-ai
+    repo_url: "https://github.com/moudakis-com/discord-local-ai.git"
+    env_file: "{{ app_dir }}/.env"
+
+  tasks:
+
+    - name: Install required packages
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - git
+        update_cache: yes
+
+    - name: Clone the Discord AI bot repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_dir }}"
+        version: main
+
+    - name: Install Python dependencies
+      pip:
+        requirements: "{{ app_dir }}/requirements.txt"
+        executable: pip3
+
+    - name: Ensure .env file is in place
+      copy:
+        dest: "{{ env_file }}"
+        content: |
+          DISCORD_BOT_TOKEN=your_token_here
+        owner: root
+        mode: '0600'
+
+    - name: Create systemd service
+      copy:
+        dest: /etc/systemd/system/discord-ai.service
+        content: |
+          [Unit]
+          Description=Discord Local AI Bot
+          After=network.target
+
+          [Service]
+          WorkingDirectory={{ app_dir }}
+          ExecStart=/usr/bin/python3 {{ app_dir }}/homie.py
+          EnvironmentFile={{ env_file }}
+          Restart=always
+          User=root
+
+          [Install]
+          WantedBy=multi-user.target
+      notify: Restart bot
+
+  handlers:
+    - name: Restart bot
+      systemd:
+        name: discord-ai
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
