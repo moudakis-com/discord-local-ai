@@ -51,6 +51,12 @@ chmod +x install_mac.sh
 ./install_mac.sh
 ```
 
+Uninstall with
+```bash
+chmod +x uninstall_mac.sh
+./uninstall_mac.sh
+```
+
 ### Linux
 
 ```
@@ -60,8 +66,13 @@ chmod +x install.sh
 ./install.sh
 ```
 
-When prompted, paste your Discord bot token.
+Uninstall with
+```bash
+chmod +x uninstall_mac.sh
+./uninstall_linux.sh
+```
 
+When prompted, paste your Discord bot token.
 ---
 
 ## Usage
