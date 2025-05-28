@@ -25,9 +25,6 @@ def chunk_text(text, limit=1010):
         split_point = text.rfind('\n\n', 0, limit)
         if split_point == -1:
             split_point = text.rfind('\n', 0, limit)  # Fallback to single newline
-        # split_point = text.rfind('\n', 0, limit)
-        # if split_point == -1:
-        #     split_point = limit  # Fallback: hard split
         chunks.append(text[:split_point].strip())
         text = text[split_point:].strip()
     if text:
