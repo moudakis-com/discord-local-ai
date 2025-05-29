@@ -2,7 +2,7 @@ from ollama import AsyncClient
 import sqlite3
 import os
 
-DB_FILE = "preferences.db"
+DB_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "db", "preferences.db")
 
 # Set up database for prompt, response and user id for history
 def init_db():

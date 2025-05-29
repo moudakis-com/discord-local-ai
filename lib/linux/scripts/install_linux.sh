@@ -3,7 +3,7 @@
 set -e
 
 # Configuration
-APP_DIR="/opt/discord-local-ai"
+APP_DIR="$(pwd)/../../../.."
 REPO_URL="https://github.com/moudakis-com/discord-local-ai.git"
 ENV_FILE="$APP_DIR/.env"
 SYSTEMD_FILE="/etc/systemd/system/discord-ai.service"
@@ -34,7 +34,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=$APP_DIR
-ExecStart=$PYTHON_BIN $APP_DIR/homie.py
+ExecStart=$PYTHON_BIN $APP_DIR/home/homie.py
 EnvironmentFile=$ENV_FILE
 Restart=always
 User=root

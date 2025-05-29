@@ -11,8 +11,9 @@ load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
 # Setup Logging
+LOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs", "homieOfAi.log")
 logger = logging.getLogger(__name__)
-file_handler = logging.FileHandler('homieOfAi.log', encoding='utf-8')
+file_handler = logging.FileHandler(LOG_FILE, encoding='utf-8')
 file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p'))
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
