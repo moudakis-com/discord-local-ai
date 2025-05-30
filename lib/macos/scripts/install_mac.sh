@@ -16,8 +16,12 @@ pip install -r "$APP_DIR/lib/homie/requirements.txt"
 
 echo "Setting up environment..."
 if [ ! -f "$APP_DIR/lib/homie/.env" ]; then
-  read -p "Enter your DISCORD_BOT_TOKEN: " token
-  echo "DISCORD_BOT_TOKEN=$token" > "$APP_DIR/lib/homie/.env"
+  read -p "Enter your DISCORD_BOT_TOKEN: " $DISCORD_BOT_TOKEN
+  # if [ -z "$DISCORD_BOT_TOKEN" ]; then
+  #   echo "Error: DISCORD_BOT_TOKEN is not set. Please set it as an environment variable or GitHub secret."
+  #   exit 1
+  # fi
+  echo "DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN" > "$APP_DIR/lib/homie/.env"
 fi
 
 echo "Launching bot..."

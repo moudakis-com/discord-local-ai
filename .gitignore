@@ -1,3 +1,5 @@
 ./lib/homie/.env
 ./db/preferences.db
 ./logs/homieOfAi.log
+./lib/homie/__pycache__/
+./lib/homie/__pycache__/llamaAi.cpython-313.pyc
