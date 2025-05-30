@@ -2,7 +2,7 @@ from ollama import AsyncClient
 import sqlite3
 import os
 
-DB_FILE = "preferences.db"
+DB_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "db", "preferences.db")
 
 # Set up database for prompt, response and user id for history
 def init_db():
@@ -22,7 +22,7 @@ def init_db():
 init_db()
 
 # Function to update prompt and response
-async def updatePreferences(prompt, response, uid):
+def updatePreferences(prompt, response, uid):
   conn = sqlite3.connect(DB_FILE)
   cursor = conn.cursor()
   cursor.execute("""
@@ -47,8 +47,8 @@ async def chat(usrInput, uid):
   prefs = getPreferences(uid)
   for pair in prefs:
       messages.append({'role': 'user', 'content': pair['prompt']})
-      messages.append({'role': 'user', 'content': pair['response']})
+      messages.append({'role': 'assistant', 'content': pair['response']})
   messages.append({'role': 'user', 'content': usrInput})
   response = await AsyncClient().chat(model='llama3.2', messages=messages)
-  await updatePreferences(str(usrInput), str(response), uid)
+  updatePreferences(str(usrInput), str(response), uid)
   return response['message']['content']

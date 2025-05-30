@@ -42,37 +42,22 @@ This project runs a locally hosted AI-powered Discord bot using [Ollama](https:/
 
 ## 🔧 Installation
 
-### macOS
-
+Install
 ```bash
 git clone https://github.com/yourusername/discord-local-ai.git
 cd discord-local-ai
-chmod +x install_mac.sh
-./install_mac.sh
-```
-
-Uninstall with
-```bash
-chmod +x uninstall_mac.sh
-./uninstall_mac.sh
-```
-
-### Linux
-
-```
-git clone https://github.com/yourusername/discord-local-ai.git
-cd discord-local-ai
-chmod +x install.sh
+chmod +x ./install.sh
 ./install.sh
 ```
 
-Uninstall with
+Uninstall
 ```bash
-chmod +x uninstall_mac.sh
-./uninstall_linux.sh
+chmod +x ./uninstall.sh
+./uninstall.sh
 ```
 
 When prompted, paste your Discord bot token.
+If using github secrets uncomment lines 20, 21, 22, and 23 in lib/macos/scripts/install_mac.sh AND comment out line 19
 ---
 
 ## Usage
@@ -97,16 +82,32 @@ ollama run llama
 ## File Structure
 
 ```
-discord-local-ai/
-├── homie.py               # Main Discord bot file
-├── llamaAi.py             # Handles Ollama calls + user preference storage (SQLite)
-├── requirements.txt       # Python dependencies
-├── .env                   # Environment variables (Discord bot token)
-├── install.sh             # Linux setup script with systemd support
-├── install_mac.sh         # macOS setup script using virtualenv
-├── preferences.db         # SQLite database storing user history
-├── homieOfAi.log          # Logs for prompts and responses
-└── readme.md              # Project documentation
+└── discord-local-ai                            # Root
+    ├── db
+    │   └── preferences.db                      # SQLite database storing user history
+    ├── install.sh                              # Runs instal script based on system OS  
+    ├── lib
+    │   ├── ansible
+    │   │   └── discord_bot.yml                 # Ansible yml file (NEEDS UPDATE)
+    │   ├── homie
+    │   │   ├── __pycache__                     
+    │   │   │   └── llamaAi.cpython-313.pyc     # Python auto generated file for bytecode
+    │   │   ├── .env                            # Environment variables (Discord bot token)
+    │   │   ├── homie.py                        # Main Discord bot file
+    │   │   ├── llamaAi.py                      # Handles Ollama calls + user preference storage (SQLite)
+    │   │   └── requirements.txt                # Python dependencies
+    │   ├── linux
+    │   │   └── scripts
+    │   │       ├── install_linux.sh            # Linux setup script with systemd support
+    │   │       └── uninstall_linux.sh          # Linux uninstall script
+    │   └── macos
+    │       └── scripts
+    │           ├── install_mac.sh              # macOS setup script using virtualenv
+    │           └── uninstall_mac.sh            # macOS uninstall script
+    ├── LICENSE                                 # MIT LICENSE
+    ├── logs
+    │   └── homieOfAi.log                       # Logs for prompts and responses
+    └── readme.md                               # Project documentation
 ```
 
 ---
