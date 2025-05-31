@@ -104,17 +104,17 @@ discord-local-ai                            # Root
 │   │   └── requirements.txt                # Python dependencies
 │   ├── linux
 │   │   └── scripts
-│   │       ├── install_linux.sh    # Linux setup script with systemd support
-│   │       └── uninstall_linux.sh  # Linux uninstall script
+│   │       ├── install_linux.sh            # Linux setup script with systemd support
+│   │       └── uninstall_linux.sh          # Linux uninstall script
 │   └── macos
 │       └── scripts
-│           ├── install_mac.sh      # macOS setup script using virtualenv
-│           └── uninstall_mac.sh    # macOS uninstall script
-├── LICENSE                         # MIT LICENSE
+│           ├── install_mac.sh              # macOS setup script using virtualenv
+│           └── uninstall_mac.sh            # macOS uninstall script
+├── LICENSE                                 # MIT LICENSE
 ├── logs
 │   └── homieOfAi.log                       # Logs for prompts and responses
-├── readme.md                       # Project documentation              
-└── uninstall.sh                    # Runs uninstal script based on system OS
+├── readme.md                               # Project documentation              
+└── uninstall.sh                            # Runs uninstal script based on system OS
 ```
 ---
 
